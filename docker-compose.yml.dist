@@ -1,0 +1,62 @@
+version: '3.5'
+
+services:
+  bee-fw-web:
+    container_name: bee-fw-web
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $U_ID
+    ports:
+      - 255:80
+    volumes:
+      - ./:/appdata/www/public
+    depends_on:
+      - bee-fw-be
+    networks:
+      - bee-fw-network
+
+  bee-fw-be:
+    container_name: bee-fw-be
+    build:
+      context: docker/php
+      args:
+        UID: $U_ID
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=172.17.0.1 remote_port=9005 # Linux users
+    #      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9005 # MacOS users
+    volumes:
+      - ./:/appdata/www
+      - ./docker/php/xdebug-linux.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      #      - ./docker/php/xdebug-macos.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
+    depends_on:
+      - bee-fw-db
+    networks:
+      - bee-fw-network
+
+  bee-fw-db:
+    container_name: bee-fw-db
+    image: mariadb:10.5
+    restart: always
+    ports:
+      - 36000:3306
+    environment:
+      MYSQL_DATABASE: bee_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="STRICT_ALL_TABLES,NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - bee-fw-db-data:/var/lib/mariadb
+    networks:
+      - bee-fw-network
+
+volumes:
+  bee-fw-db-data:
+
+networks:
+  bee-fw-network:
+    external: true
