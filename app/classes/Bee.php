@@ -9,7 +9,7 @@ class Bee {
     // La función principal que se ejecuta al instanciar nuestra clase
     public function __construct()
     {
-        //
+        $this->init();
     }
 
     /**
@@ -17,7 +17,10 @@ class Bee {
      */
     private function init(): void
     {
-        //
+        $this->init_session();
+        $this->init_load_config();
+        $this->init_load_functions();
+        $this->init_autoload();
     }
 
     /**
