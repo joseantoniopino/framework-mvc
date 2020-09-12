@@ -63,3 +63,8 @@ define('DB_USER', 'REMOTE_DATABASE');
 define('DB_PASS', 'REMOTE_DATABASE');
 define('DB_PORT', 'REMOTE_DATABASE');
 define('DB_CHARSET', 'utf8');
+
+// El controlador por defecto / el método por defecto / y el controlador de errores por defecto
+define('DEFAULT_CONTROLLER', 'home');
+define('DEFAULT_ERROR_CONTROLLER', 'error');
+define('DEFAULT_METHOD', 'index');

@@ -9,14 +9,10 @@ class Bee {
     // La función principal que se ejecuta al instanciar nuestra clase
     public function __construct()
     {
-        $this->init();
-
         if (isset($_GET['uri']) && $_GET['uri'] === '/'){
             unset($_GET['uri']);
         }
-
-        $this->filter_url();
-        var_dump($this->uri);
+        $this->init();
     }
 
     /**
@@ -28,6 +24,7 @@ class Bee {
         $this->init_load_config();
         $this->init_load_functions();
         $this->init_autoload();
+        $this->dispatch();
     }
 
     /**
@@ -76,6 +73,8 @@ class Bee {
         require_once CLASSES.'Db.php';
         require_once CLASSES.'Model.php';
         require_once CLASSES.'Controller.php';
+        require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
+        require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
     }
 
     /**
@@ -88,6 +87,30 @@ class Bee {
             $_GET['uri'] = filter_var($_GET['uri'], FILTER_SANITIZE_URL);
             $this->uri = explode('/', strtolower($_GET['uri']));
         }
+        // var_dump($this->uri);
         return $this->uri;
+    }
+
+    /**
+     * Método para ejecutar y cargar de forma automática el controlador solicitado por el usuario
+     */
+    private function dispatch()
+    {
+        // Filtrar la URL y separar la URI
+        $this->filter_url();
+
+        // Obtenemos el controlador, que viene en el primer segmento de la uri, si no existe cargamos el default.
+        if (isset($this->uri[0])){
+            $current_controller = $this->uri[0];
+            unset($this->uri[0]);
+        } else {
+            $current_controller = DEFAULT_CONTROLLER;
+        }
+
+        // Le añadimos el sufijo 'Controller' y comprobamos si existe la clase. Si existe, lanzamos el errorController.
+        $controller = $current_controller . 'Controller';
+        if (!class_exists($controller)){
+            $controller = DEFAULT_ERROR_CONTROLLER.'Controller';
+        }
     }
 }
