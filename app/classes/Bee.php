@@ -99,7 +99,11 @@ class Bee {
         // Filtrar la URL y separar la URI
         $this->filter_url();
 
-        // Obtenemos el controlador, que viene en el primer segmento de la uri, si no existe cargamos el default.
+        ///////////////////////////////////////////////////////////////
+        /// Obtenemos el controlador, que viene en el primer
+        ///  segmento de la uri,
+        ///  si no existe cargamos el default.
+        ///////////////////////////////////////////////////////////////
         if (isset($this->uri[0])){
             $current_controller = $this->uri[0];
             unset($this->uri[0]);
@@ -107,10 +111,31 @@ class Bee {
             $current_controller = DEFAULT_CONTROLLER;
         }
 
-        // Le añadimos el sufijo 'Controller' y comprobamos si existe la clase. Si existe, lanzamos el errorController.
+        // Le añadimos el sufijo 'Controller' y comprobamos si existe la clase.
+        // Si no existe, lanzamos el errorController.
         $controller = $current_controller . 'Controller';
         if (!class_exists($controller)){
             $controller = DEFAULT_ERROR_CONTROLLER.'Controller';
         }
+
+        ///////////////////////////////////////////////////////////////
+        /// Ejecución del método solicitado
+        ///////////////////////////////////////////////////////////////
+        if (isset($this->uri[1])){
+            $method = str_replace('-', '_', $this->uri[1]);
+
+            // Validamos si existe el método en la clase
+            if (!method_exists($controller, $method)){
+                $controller = DEFAULT_ERROR_CONTROLLER . 'Controller';
+                $current_method = DEFAULT_METHOD;
+            } else {
+                $current_method = $method;
+            }
+            unset($this->uri[1]);
+        } else {
+            $current_method = DEFAULT_METHOD;
+        }
+        var_dump($current_method);
+
     }
 }
