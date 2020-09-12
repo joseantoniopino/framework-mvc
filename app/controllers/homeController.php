@@ -1,9 +1,17 @@
 <?php
 
-class homeController{
+use app\interfaces\ControllerInterface;
+
+class homeController implements ControllerInterface {
 
     public function __construct()
     {
-        echo 'Ejecutando: ' . __CLASS__;
+        //
+    }
+
+
+    public function index()
+    {
+        require_once VIEWS.'testView.php';
     }
 }

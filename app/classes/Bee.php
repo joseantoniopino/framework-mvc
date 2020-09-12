@@ -32,7 +32,7 @@ class Bee {
      */
     private function init_session(): void
     {
-        if (!session_start()) session_start();
+        if (session_start() == PHP_SESSION_NONE) session_start();
     }
 
     /*
@@ -70,6 +70,7 @@ class Bee {
      */
     private function init_autoload(): void
     {
+        require_once INTERFACES.'ControllerInterface.php';
         require_once CLASSES.'Db.php';
         require_once CLASSES.'Model.php';
         require_once CLASSES.'Controller.php';
@@ -94,7 +95,7 @@ class Bee {
     /**
      * Método para ejecutar y cargar de forma automática el controlador solicitado por el usuario
      */
-    private function dispatch()
+    private function dispatch(): void
     {
         // Filtrar la URL y separar la URI
         $this->filter_url();
@@ -119,7 +120,7 @@ class Bee {
         }
 
         ///////////////////////////////////////////////////////////////
-        /// Ejecución del método solicitado
+        /// Extracción del método solicitado
         ///////////////////////////////////////////////////////////////
         if (isset($this->uri[1])){
             $method = str_replace('-', '_', $this->uri[1]);
@@ -135,7 +136,28 @@ class Bee {
         } else {
             $current_method = DEFAULT_METHOD;
         }
-        var_dump($current_method);
 
+        ///////////////////////////////////////////////////////////////
+        /// Ejecución del controlador y método según la petición
+        ///////////////////////////////////////////////////////////////
+        $controller = new $controller;
+
+        // Obtenemos los parámetros de la uri
+        $params = array_values(empty($this->uri) ? [] : $this->uri);
+
+        // Llamada al método que solicita el usuario
+        if (empty($params)){
+            call_user_func([$controller, $current_method]);
+        } else {
+            call_user_func_array([$controller, $current_method], $params);
+        }
+    }
+
+    /**
+     * Ejecuta el framework
+     */
+    public static function fly(): self
+    {
+        return new self();
     }
 }

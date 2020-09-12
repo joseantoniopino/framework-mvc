@@ -1,9 +1,16 @@
 <?php
 
-class errorController{
+use app\interfaces\ControllerInterface;
+
+class errorController implements ControllerInterface {
 
     public function __construct()
     {
-        echo 'Ejecutando: ' . __CLASS__;
+        //
+    }
+
+    public function index()
+    {
+        echo '<h1>Página no encontrada</h1>';
     }
 }

@@ -28,6 +28,7 @@ define('CLASSES', APP . 'classes' . DS);
 define('CONFIG', APP . 'config' . DS);
 define('CONTROLLERS', APP . 'controllers' . DS);
 define('FUNCTIONS', APP . 'functions' . DS);
+define('INTERFACES', APP . 'interfaces' . DS);
 define('MODELS', APP . 'models' . DS);
 
 define('TEMPLATES', ROOT . 'templates' . DS);
