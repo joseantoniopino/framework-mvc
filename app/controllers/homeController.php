@@ -12,6 +12,10 @@ class homeController implements ControllerInterface {
 
     public function index()
     {
-        require_once VIEWS.'testView.php';
+        $data = [
+            'id' => 1,
+            'titulo' => 'Una página'
+        ];
+        View::render('test', $data);
     }
 }

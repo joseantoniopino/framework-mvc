@@ -73,6 +73,7 @@ class Bee {
         require_once INTERFACES.'ControllerInterface.php';
         require_once CLASSES.'Db.php';
         require_once CLASSES.'Model.php';
+        require_once CLASSES.'View.php';
         require_once CLASSES.'Controller.php';
         require_once CONTROLLERS.DEFAULT_CONTROLLER.'Controller.php';
         require_once CONTROLLERS.DEFAULT_ERROR_CONTROLLER.'Controller.php';
@@ -136,6 +137,10 @@ class Bee {
         } else {
             $current_method = DEFAULT_METHOD;
         }
+
+        // Definimos dos constantes para usarlas más adelante
+        define('CONTROLLER', $current_controller);
+        define('METHOD', $current_method);
 
         ///////////////////////////////////////////////////////////////
         /// Ejecución del controlador y método según la petición
