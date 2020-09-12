@@ -10,6 +10,13 @@ class Bee {
     public function __construct()
     {
         $this->init();
+
+        if (isset($_GET['uri']) && $_GET['uri'] === '/'){
+            unset($_GET['uri']);
+        }
+
+        $this->filter_url();
+        var_dump($this->uri);
     }
 
     /**
@@ -69,5 +76,18 @@ class Bee {
         require_once CLASSES.'Db.php';
         require_once CLASSES.'Model.php';
         require_once CLASSES.'Controller.php';
+    }
+
+    /**
+     * Método para filtrar y descomponer los elementos de nuestra url y uri
+     */
+    private function filter_url(): array
+    {
+        if (isset($_GET['uri'])){
+            $_GET['uri'] = trim($_GET['uri'], '/');
+            $_GET['uri'] = filter_var($_GET['uri'], FILTER_SANITIZE_URL);
+            $this->uri = explode('/', strtolower($_GET['uri']));
+        }
+        return $this->uri;
     }
 }
