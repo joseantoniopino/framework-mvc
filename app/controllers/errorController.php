@@ -11,6 +11,10 @@ class errorController implements ControllerInterface {
 
     public function index()
     {
-        echo '<h1>Página no encontrada</h1>';
+        $data = [
+            'title' => 'Página no encontrada',
+            'bg' => 'dark'
+        ];
+        View::render('404', $data);
     }
 }

@@ -17,7 +17,7 @@ define('AUTH_SALT', 'BeeFramework<3');
 
 // Puerto y URL del sitio
 define('PORT', '255');
-define('URL', IS_LOCAL ? 'http://127.0.0.1:' . PORT . BASEPATH : '__URL EN PRODUCCIÓN__');
+define('URL', IS_LOCAL ? 'http://127.0.0.1:' . PORT . '/home/jose/www/bee-framework/' : '__URL EN PRODUCCIÓN__');
 
 // Las rutas de directorios y archivos
 define('DS', DIRECTORY_SEPARATOR);
@@ -37,7 +37,7 @@ define('MODULES', TEMPLATES . 'views' . DS);
 define('VIEWS', TEMPLATES . 'views' . DS);
 
 // Rutas de archivos o assets con base URL
-define('ASSETS', URL . 'assets/');
+define('ASSETS', 'assets/');
 define('CSS', ASSETS . 'css/');
 define('FAVICON', ASSETS . 'favicon/');
 define('FONTS', ASSETS . 'fonts/');

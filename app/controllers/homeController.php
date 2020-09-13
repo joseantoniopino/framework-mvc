@@ -13,9 +13,9 @@ class homeController implements ControllerInterface {
     public function index()
     {
         $data = [
-            'id' => 1,
-            'titulo' => 'Una página'
+            'title' => 'Una página',
+            'bg' => 'dark'
         ];
-        View::render('test', $data);
+        View::render('bee', $data);
     }
 }

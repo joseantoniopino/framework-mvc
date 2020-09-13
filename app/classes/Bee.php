@@ -118,6 +118,7 @@ class Bee {
         $controller = $current_controller . 'Controller';
         if (!class_exists($controller)){
             $controller = DEFAULT_ERROR_CONTROLLER.'Controller';
+            $current_controller = DEFAULT_ERROR_CONTROLLER;
         }
 
         ///////////////////////////////////////////////////////////////
@@ -130,6 +131,7 @@ class Bee {
             if (!method_exists($controller, $method)){
                 $controller = DEFAULT_ERROR_CONTROLLER . 'Controller';
                 $current_method = DEFAULT_METHOD;
+                $current_controller = DEFAULT_ERROR_CONTROLLER;
             } else {
                 $current_method = $method;
             }
